@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculs Planck depuis une date</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1e1e1e;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #ffcc00;
+        }
+        .box {
+            background: #2e2e2e;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            width: 90%;
+            max-width: 1000px;
+            word-break: break-word;
+        }
+        .unit {
+            color: #00ccff;
+            font-weight: bold;
+        }
+        input[type="date"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculs Planck depuis une date choisie</h1>
+    <p>Choisis une date :</p>
+    <input type="date" id="dateInput">
+    
+    <div class="box">
+        <p>⏱️ Secondes écoulées : <span class="unit" id="seconds">0</span></p>
+    </div>
+
+    <div class="box">
+        <p>⏳ Temps de Planck (~5,39×10⁻⁴⁴ s) :</p>
+        <p class="unit" id="planck">0</p>
+    </div>
+
+    <div class="box">
+        <p>⚡ Mini-Planck (~10⁻¹⁰ × Planck) :</p>
+        <p class="unit" id="miniplanck">0</p>
+    </div>
+
+    <div class="box">
+        <p>💥 Nano-Planck (~10⁻²⁰ × Planck) :</p>
+        <p class="unit" id="nanoplanck">0</p>
+    </div>
+
+    <script>
+        const planckTime = 5.39e-44; // secondes
+        const miniPlanckFactor = 1e-10;
+        const nanoPlanckFactor = 1e-20;
+
+        const dateInput = document.getElementById("dateInput");
+        const secondsSpan = document.getElementById("seconds");
+        const planckSpan = document.getElementById("planck");
+        const miniSpan = document.getElementById("miniplanck");
+        const nanoSpan = document.getElementById("nanoplanck");
+
+        dateInput.addEventListener("change", () => {
+            const selectedDate = new Date(dateInput.value);
+            const now = new Date();
+            const secondsElapsed = (now - selectedDate) / 1000;
+
+            secondsSpan.textContent = Math.floor(secondsElapsed);
+
+            const planckCount = secondsElapsed / planckTime;
+            const miniCount = planckCount / miniPlanckFactor;
+            const nanoCount = planckCount / nanoPlanckFactor;
+
+            planckSpan.textContent = planckCount.toExponential(5);
+            miniSpan.textContent = miniCount.toExponential(5);
+            nanoSpan.textContent = nanoCount.toExponential(5);
+        });
+    </script>
+</body>
+</html>
